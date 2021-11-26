@@ -1,19 +1,5 @@
 u <- Sys.setlocale("LC_ALL", "es_ES.UTF-8")
 
-#' Título
-#'
-#' Descripción
-#'
-#' @param data input1
-#'
-#' @return output
-#' @export
-mostrar <- function(data) {
-
-  return(data)
-
-}
-
 #' Valores absolutos abarcados
 #'
 #' Esta función te muestra en valores absolutos los montos recorridos por la colúmna
@@ -244,4 +230,33 @@ geom_segment_point <- function(point_var_x,
           position = position, show.legend = show.legend, inherit.aes = inherit.aes,
           params = list(na.rm = na.rm, ...))
   )
+}
+
+#' Función para guardar gráficas en múltiples formatos
+#'
+#' Esta función guarda las gráfics en los formatos señalados
+#'
+#' @param format formatos en los que se quiere exportar
+#' @param path_name Ubicación y nombre de la imagen guardada
+#'
+#' @return Guarda una gráfica
+#' @export
+ggsave_mult <- function(format = ".png",
+                        path_name,
+                        bg = "transparent",
+                        width = 200,
+                        height = 120,
+                        units = "mm",
+                        dpi = 300,
+                        ...){
+  purrr::walk(format,
+              ~ ggplot2::ggsave(paste0(path_name,
+                                       .x),
+                                bg = bg,
+                                width = width,                 # Ancho de la gráfica
+                                height = height,
+                                units = units,
+                                dpi = dpi,
+                                ...))
+
 }
