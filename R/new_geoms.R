@@ -249,14 +249,23 @@ ggsave_mult <- function(format = ".png",
                         units = "mm",
                         dpi = 300,
                         ...){
-  purrr::walk(format,
-              ~ ggplot2::ggsave(paste0(path_name,
-                                       .x),
-                                bg = bg,
-                                width = width,                 # Ancho de la gráfica
-                                height = height,
-                                units = units,
-                                dpi = dpi,
-                                ...))
 
-}
+  for (i in format) {
+
+    if (i == ".xlsx") {
+      last_plot() %>%
+        .$data %>%
+        write_xlsx(paste0(path_name,
+                          i))
+    } else {
+
+      ggplot2::ggsave(paste0(path_name,
+                             i),
+                      bg = bg,
+                      width = width,
+                      height = height,
+                      units = units,
+                      dpi = dpi,
+                      ...)
+
+    }}}
