@@ -281,7 +281,7 @@ ggsave_mult <- function(format = ".png",
 #' @export
 #'
 mi_tema <- function(...) {
-  ggthemes::theme_minimal() +
+  ggplot2::theme_minimal() +
     ggplot2::theme(text = element_text(family = "Lato"),
                    axis.line = element_line(size = 0.3),
                    plot.title = element_text(hjust = 0.5,
@@ -317,7 +317,7 @@ mi_tema <- function(...) {
 #' @return Tema en html para gráficas de ggplot
 #' @export
 mi_tema_html <- function(...) {
-  ggthemes::theme_minimal() +
+  ggplot2::theme_minimal() +
     ggplot2::theme(text = element_text(family = "Lato"),
                    axis.line = element_line(size = 0.3),
                    plot.title = ggtext::element_markdown(hjust = 0.5,
