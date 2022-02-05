@@ -241,6 +241,7 @@ geom_segment_point <- function(point_var_x,
 #'
 #' @return Guarda una gráfica
 #' @export
+#'
 ggsave_mult <- function(format = ".png",
                         path_name,
                         bg = "transparent",
@@ -278,30 +279,31 @@ ggsave_mult <- function(format = ".png",
 #'
 #' @return Tema para gráficas de ggplot
 #' @export
+#'
 mi_tema <- function(...) {
-  theme_minimal() +
-    theme(text = element_text(family = "Lato"),
-          axis.line = element_line(size = 0.3),
-          plot.title = element_text(hjust = 0.5,
-                                    size = 14, face = "bold",
-                                    color = "grey20"),
-          plot.subtitle = element_text(hjust = 0.5,
-                                       size = 12,
-                                       color = "gray50"),
-          plot.caption =  element_text(color = "gray50",
-                                       size = 10,
-                                       hjust = 0),
-          panel.grid = element_line(linetype = 2,
-                                    size = 0.3,
-                                    color = "gray90"),
-          # panel.grid = element_blank(),
-          panel.grid.minor = element_blank(),
-          strip.background = element_rect(fill = "gray95",
-                                          linetype = "blank"),
-          panel.border = element_rect(color = "gray95",
-                                      fill = NA),
-          rect = element_rect(fill = "transparent")) +
-    theme(...)
+  ggthemes::theme_minimal() +
+    ggplot2::theme(text = element_text(family = "Lato"),
+                   axis.line = element_line(size = 0.3),
+                   plot.title = element_text(hjust = 0.5,
+                                             size = 14, face = "bold",
+                                             color = "grey20"),
+                   plot.subtitle = element_text(hjust = 0.5,
+                                                size = 12,
+                                                color = "gray50"),
+                   plot.caption =  element_text(color = "gray50",
+                                                size = 10,
+                                                hjust = 0),
+                   panel.grid = element_line(linetype = 2,
+                                             size = 0.3,
+                                             color = "gray90"),
+                   # panel.grid = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   strip.background = element_rect(fill = "gray95",
+                                                   linetype = "blank"),
+                   panel.border = element_rect(color = "gray95",
+                                               fill = NA),
+                   rect = element_rect(fill = "transparent")) +
+    ggplot2::theme(...)
 }
 
 
@@ -315,27 +317,27 @@ mi_tema <- function(...) {
 #' @return Tema en html para gráficas de ggplot
 #' @export
 mi_tema_html <- function(...) {
-  theme_minimal() +
-    theme(text = element_text(family = "Lato"),
-          axis.line = element_line(size = 0.3),
-          plot.title = ggtext::element_markdown(hjust = 0.5,
-                                                size = 14, face = "bold",
-                                                color = "grey20"),
-          plot.subtitle = ggtext::element_markdown(hjust = 0.5,
-                                                   size = 12,
-                                                   color = "gray50"),
-          plot.caption =  ggtext::element_markdown(color = "gray50",
-                                                   size = 9,
-                                                   hjust = 0),
-          panel.grid = element_line(linetype = 2,
-                                    size = 0.3,
-                                    color = "gray90"),
-          # panel.grid = element_blank(),
-          panel.grid.minor = element_blank(),
-          strip.background = element_rect(fill = "gray95",
-                                          linetype = "blank"),
-          panel.border = element_rect(color = "gray95",
-                                      fill = NA),
-          rect = element_rect(fill = "transparent")) +
-    theme(...)
+  ggthemes::theme_minimal() +
+    ggplot2::theme(text = element_text(family = "Lato"),
+                   axis.line = element_line(size = 0.3),
+                   plot.title = ggtext::element_markdown(hjust = 0.5,
+                                                         size = 14, face = "bold",
+                                                         color = "grey20"),
+                   plot.subtitle = ggtext::element_markdown(hjust = 0.5,
+                                                            size = 12,
+                                                            color = "gray50"),
+                   plot.caption =  ggtext::element_markdown(color = "gray50",
+                                                            size = 9,
+                                                            hjust = 0),
+                   panel.grid = element_line(linetype = 2,
+                                             size = 0.3,
+                                             color = "gray90"),
+                   # panel.grid = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   strip.background = element_rect(fill = "gray95",
+                                                   linetype = "blank"),
+                   panel.border = element_rect(color = "gray95",
+                                               fill = NA),
+                   rect = element_rect(fill = "transparent")) +
+    ggplot2::theme(...)
 }

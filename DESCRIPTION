@@ -13,6 +13,8 @@ Depends: R (>= 3.1.0)
 Imports:
     tidyverse (>= 1.3.0),
     rlang,
+    ggthemes,
+    ggtext,
     writexl
 Suggests:
     ggplot2,
