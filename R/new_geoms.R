@@ -269,3 +269,73 @@ ggsave_mult <- function(format = ".png",
                       ...)
 
     }}}
+
+#' Tema inicial con formato general
+#'
+#' Esta resume las funciones de estilo utilizadas en mis gráficas
+#'
+#' @param ... cambios en el tema
+#'
+#' @return Tema para gráficas de ggplot
+#' @export
+mi_tema <- function(...) {
+  theme_minimal() +
+    theme(text = element_text(family = "Lato"),
+          axis.line = element_line(size = 0.3),
+          plot.title = element_text(hjust = 0.5,
+                                    size = 14, face = "bold",
+                                    color = "grey20"),
+          plot.subtitle = element_text(hjust = 0.5,
+                                       size = 12,
+                                       color = "gray50"),
+          plot.caption =  element_text(color = "gray50",
+                                       size = 10,
+                                       hjust = 0),
+          panel.grid = element_line(linetype = 2,
+                                    size = 0.3,
+                                    color = "gray90"),
+          # panel.grid = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.background = element_rect(fill = "gray95",
+                                          linetype = "blank"),
+          panel.border = element_rect(color = "gray95",
+                                      fill = NA),
+          rect = element_rect(fill = "transparent")) +
+    theme(...)
+}
+
+
+#' Tema inicial con formato html
+#'
+#' Esta resume las funciones de estilo utilizadas en mis gráficas
+#' con estilo html
+#'
+#' @param ... cambios en el tema
+#'
+#' @return Tema en html para gráficas de ggplot
+#' @export
+mi_tema_html <- function(...) {
+  theme_minimal() +
+    theme(text = element_text(family = "Lato"),
+          axis.line = element_line(size = 0.3),
+          plot.title = ggtext::element_markdown(hjust = 0.5,
+                                                size = 14, face = "bold",
+                                                color = "grey20"),
+          plot.subtitle = ggtext::element_markdown(hjust = 0.5,
+                                                   size = 12,
+                                                   color = "gray50"),
+          plot.caption =  ggtext::element_markdown(color = "gray50",
+                                                   size = 9,
+                                                   hjust = 0),
+          panel.grid = element_line(linetype = 2,
+                                    size = 0.3,
+                                    color = "gray90"),
+          # panel.grid = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.background = element_rect(fill = "gray95",
+                                          linetype = "blank"),
+          panel.border = element_rect(color = "gray95",
+                                      fill = NA),
+          rect = element_rect(fill = "transparent")) +
+    theme(...)
+}
