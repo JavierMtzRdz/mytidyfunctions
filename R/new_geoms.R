@@ -232,6 +232,77 @@ geom_segment_point <- function(point_var_x,
   )
 }
 
+#' Geom para generar segmentos sobre cada valor en posición vertical.
+#'
+#' Esta función genera segmentos para cada valor de x y así mostrar cierto nivel.
+#'
+#' @param data input1
+#'
+#' @return Una nueva capa de segmentos para una gráfica.
+#' @export
+geom_segment_pointv <- function(point_var_x,
+                                point_var_y,
+                                color_point = NULL,
+                                mapping = NULL, data = NULL,
+                                stat = "identity", position = "identity",
+                                point_dist = 0.4,
+                                ..., arrow = NULL, arrow.fill = NULL,
+                                lineend = "butt", linejoin = "round",
+                                na.rm = FALSE, show.legend = NA, inherit.aes = TRUE){
+
+  if (!missing(color_point)) {
+    var_color <- rlang::enquo(color_point)
+
+    variable_x <- rlang::enquo(point_var_x)
+
+    variable_y <- rlang::enquo(point_var_y)
+
+    mapping_seg <- ggplot2::aes(x = !!variable_x - point_dist,
+                                xend = !!variable_x + point_dist,
+                                y = !!variable_y,
+                                yend = !!variable_y,
+                                color = !!var_color)
+
+    mapping_point_1 <- ggplot2::aes(x = !!variable_x + point_dist,
+                                    y = !!variable_y,
+                                    color = !!var_color)
+
+    mapping_point_2 <- ggplot2::aes(x = !!variable_x - point_dist,
+                                    y = !!variable_y,
+                                    color = !!var_color)
+  } else {
+
+    variable_x <- rlang::enquo(point_var_x)
+
+    variable_y <- rlang::enquo(point_var_y)
+
+    mapping_seg <- ggplot2::aes(x = !!variable_x,
+                                xend = !!variable_x,
+                                y = !!variable_y - point_dist,
+                                yend = !!variable_y + point_dist)
+
+    mapping_point_1 <- ggplot2::aes(x = !!variable_x,
+                                    y = !!variable_y + point_dist)
+
+    mapping_point_2 <- ggplot2::aes(x = !!variable_x,
+                                    y = !!variable_y - point_dist)
+  }
+
+  list(
+    ggplot2::layer(data = data, mapping = mapping_seg, stat = stat, geom = GeomSegment,
+                   position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+                   params = list(arrow = arrow, arrow.fill = arrow.fill,
+                                 lineend = lineend, linejoin = linejoin, na.rm = na.rm,
+                                 ...)),
+    ggplot2::layer(data = data, mapping = mapping_point_1, stat = stat, geom = GeomPoint,
+                   position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+                   params = list(na.rm = na.rm, ...)),
+    ggplot2::layer(data = data, mapping = mapping_point_2, stat = stat, geom = GeomPoint,
+                   position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+                   params = list(na.rm = na.rm, ...))
+  )
+}
+
 #' Función para guardar gráficas en múltiples formatos
 #'
 #' Esta función guarda las gráfics en los formatos señalados
