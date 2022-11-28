@@ -1,5 +1,3 @@
-u <- Sys.setlocale("LC_ALL", "es_ES.UTF-8")
-
 #' Valores absolutos abarcados
 #'
 #' Esta función te muestra en valores absolutos los montos recorridos por la colúmna
@@ -24,7 +22,112 @@ width_bar <- function(variable){
   return(ancho_barras)
 }
 
-#' Geom text para barras horizontales
+#' Ggproto del goeom text para barras
+#'
+#' Esta función es la gase de geom_text_bi()
+#'
+#' @param data input1
+#'
+#' @return Una nueva capa de texto para una gráfica
+#' @export
+#' 
+
+GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
+required_aes = c("x", "y", "label"),
+
+default_aes = ggplot2::aes(
+  # colour = "black",
+  size = 3.88, angle = 0, 
+  percent_change = 0.25,
+  hjust = 0.5, vjust = 0.5,
+  hdist = 0.1, vdist = 0.1,
+  alpha = NA, family = "", 
+  fontface = 1, lineheight = 1.2
+),
+
+draw_panel = function(data, panel_params, coord, parse = FALSE,
+                      na.rm = FALSE, check_overlap = FALSE,
+                      dist_h = T,
+                      color_black = "grey15", 
+                      color_light = "grey95") {
+  lab <- data$label
+  
+  values <- data$y
+  
+  width <- width_bar(data$y)
+  
+  if (parse) {
+    lab <- parse_safe(as.character(lab))
+  }
+  
+  data <- coord$transform(data, panel_params)
+  
+  if (is.character(data$vjust)) {
+    data$vjust <- compute_just(data$vjust, data$y, data$x, data$angle)
+  }
+  if (is.character(data$hjust)) {
+    data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+  }
+  
+  if (is.null(data$hjust)) {
+    data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+  }
+  
+  if (is.null(data$hjust)) {
+    data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+  }
+  
+  
+  if (dist_h) {
+    
+    data$vjust <- ifelse((values >= 0 &
+                            values/width >= data$percent_change) |
+                           (values < 0 & 
+                              abs(values)/width < data$percent_change),
+                         data$vjust + 0.5 + data$vdist,
+                         data$vjust - 0.5 - data$vdist
+    )
+    
+    data$colour <- ifelse(abs(values)/width < data$percent_change,
+                          color_black,
+                          color_light)
+    
+  } else {
+    
+    data$hjust <- ifelse((values >= 0 &
+                            values/width >= data$percent_change) |
+                           (values < 0 & 
+                              abs(values)/width < data$percent_change),
+                         data$hjust + 0.5 + data$hdist,
+                         data$hjust - 0.5 - data$hdist)
+    
+    data$colour <- ifelse(abs(values)/width < data$percent_change,
+                          color_black,
+                          color_light)
+    
+  }
+  
+  grid::textGrob(
+    lab,
+    data$x, data$y, default.units = "native",
+    hjust = data$hjust, vjust = data$vjust,
+    rot = data$angle,
+    gp = grid::gpar(
+      col = ggplot2::alpha(data$colour, data$alpha),
+      fontsize = data$size * .pt,
+      fontfamily = data$family,
+      fontface = data$fontface,
+      lineheight = data$lineheight
+    ),
+    check.overlap = check_overlap
+  )
+},
+
+draw_key = ggplot2::draw_key_text
+)
+
+
+#' Geom text para barras
 #'
 #' Esta función sirve para añadir fácilmente los valores para los barras de variación
 #' en valores negativos y positivos. Sólo se esplican los parámetros que difieren de
@@ -34,131 +137,43 @@ width_bar <- function(variable){
 #'
 #' @return Una nueva capa de texto para una gráfica
 #' @export
-geom_text_bilateral <- function(lab_position,
-                                 lab_hor = NULL,
-                                 percent_change = 0.25,
-                                 hdist = 0.05,
-                                 vdist = NULL,
-                                 vjust = 0.5,
-                                 mapping = NULL, data = NULL,
-                                 stat = "identity", position = "identity",
-                                 color_black = "grey15", color_light = "grey95",
-                                 ..., parse = FALSE, nudge_x = 0, nudge_y = 0, check_overlap = FALSE,
-                                 na.rm = TRUE, show.legend = NA, inherit.aes = TRUE)
+geom_text_bi <- function(mapping = NULL, data = NULL,
+                         stat = "identity", position = "identity",
+                         ...,
+                         parse = FALSE,
+                         nudge_x = 0,
+                         nudge_y = 0,
+                         check_overlap = FALSE,
+                         na.rm = FALSE,
+                         show.legend = NA,
+                         inherit.aes = TRUE)
 {
   if (!missing(nudge_x) || !missing(nudge_y)) {
     if (!missing(position)) {
-      abort("You must specify either `position` or `nudge_x`/`nudge_y`.")
+      cli::cli_abort(c(
+        "both {.arg position} and {.arg nudge_x}/{.arg nudge_y} are supplied",
+        "i" = "Only use one approach to alter the position"
+      ))
     }
+    
     position <- ggplot2::position_nudge(nudge_x, nudge_y)
   }
-
-  if (!missing(lab_hor)) {
-    lab_hor <- rlang::enquo(lab_hor)
-
-    variable <- rlang::enquo(lab_position)
-
-    change <- rlang::expr(ifelse(!!variable >= 0 &
-                            abs(!!variable)/width_bar(!!variable) >= percent_change,
-                          !!variable, NA_integer_))
-
-    mapping <- ggplot2::aes(y = !!change,
-                   label = !!lab_hor)
-
-    change_2 <- rlang::expr(ifelse(!!variable >= 0 &
-                              abs(!!variable)/width_bar(!!variable) < percent_change,
-                            !!variable, NA_integer_))
-
-    mapping_2 <- ggplot2::aes(y = !!change_2,
-                     label = !!lab_hor)
-
-    change_3 <- rlang::expr(ifelse(!!variable < 0 &
-                              abs(!!variable)/width_bar(!!variable) >= percent_change,
-                            !!variable, NA_integer_))
-
-    mapping_3 <- ggplot2::aes(y = !!change_3,
-                     label = !!lab_hor)
-
-    change_4 <- rlang::expr(ifelse(!!variable < 0 &
-                              abs(!!variable)/width_bar(!!variable) < percent_change,
-                            !!variable, NA_integer_))
-
-    mapping_4 <- ggplot2::aes(y = !!change_4,
-                     label = !!lab_hor)
-  } else {
-    variable <- rlang::enquo(lab_position)
-
-    change <- rlang::expr(ifelse(!!variable >= 0 &
-                            abs(!!variable)/width_bar(!!variable) >= percent_change,
-                          !!variable, NA_integer_))
-
-    mapping <- ggplot2::aes(y = !!change)
-
-    change_2 <- rlang::expr(ifelse(!!variable >= 0 &
-                              abs(!!variable)/width_bar(!!variable) < percent_change,
-                            !!variable, NA_integer_))
-
-    mapping_2 <- ggplot2::aes(y = !!change_2)
-
-    change_3 <- rlang::expr(ifelse(!!variable < 0 &
-                              abs(!!variable)/width_bar(!!variable) >= percent_change,
-                            !!variable, NA_integer_))
-
-    mapping_3 <- ggplot2::aes(y = !!change_3)
-
-    change_4 <- rlang::expr(ifelse(!!variable < 0 &
-                              abs(!!variable)/width_bar(!!variable) < percent_change,
-                            !!variable, NA_integer_))
-
-    mapping_4 <- ggplot2::aes(y = !!change_4)
-  }
-
-  list(ggplot2::layer(data = data, mapping = mapping,
-             stat = stat, geom = GeomText,
-             position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-             params = list(parse = parse, check_overlap = check_overlap,
-                           na.rm = na.rm,
-                           color = color_light,
-                           hjust = 1 + hdist, # Positivo abajo
-                           vjust = ifelse(is.null(vdist),
-                                          vjust,
-                                          1.15 + vdist),
-                           ...)),
-       ggplot2::layer(data = data, mapping = mapping_2,
-             stat = stat, geom = GeomText,
-             position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-             params = list(parse = parse, check_overlap = check_overlap,
-                           na.rm = na.rm,
-                           color = color_black,
-                           hjust = -hdist, # Positivo arriba
-                           vjust = ifelse(is.null(vdist),
-                                          vjust,
-                                          -0.1 - vdist),
-                           ...)),
-       ggplot2::layer(data = data, mapping = mapping_3,
-             stat = stat, geom = GeomText,
-             position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-             params = list(parse = parse, check_overlap = check_overlap,
-                           na.rm = na.rm,
-                           color = color_light,
-                           vjust = ifelse(is.null(vdist),
-                                          vjust,
-                                          -0.15 + vdist),
-                           hjust = -hdist,
-                           ...)),
-       ggplot2::layer(data = data, mapping = mapping_4,
-             stat = stat, geom = GeomText,
-             position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-             params = list(parse = parse, check_overlap = check_overlap,
-                           na.rm = na.rm,
-                           color = color_black,
-                           vjust = ifelse(is.null(vdist),
-                                          vjust,
-                                          1.1 + vdist),
-                           hjust = 1+hdist,
-                           ...))
+  
+  ggplot2::layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = GeomTextBi,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      parse = parse,
+      check_overlap = check_overlap,
+      na.rm = na.rm,
+      ...
+    )
   )
-
 }
 
 #' Geom para generar segmentos sobre cada valor.
@@ -325,9 +340,9 @@ ggsave_mult <- function(format = ".png",
   for (i in format) {
 
     if (i == ".xlsx") {
-      last_plot() %>%
+      ggplot2::last_plot() %>%
         .$data %>%
-        write_xlsx(paste0(path_name,
+        writexl::write_xlsx(paste0(path_name,
                           i))
     } else {
 
@@ -342,6 +357,23 @@ ggsave_mult <- function(format = ".png",
 
     }}}
 
+#' Función para determinar qupe función usar
+#'
+#' Esa función determina si usar formato markdawn o texto normal.
+#'
+#' @param markdown booleano para determinar si usar la función de base o la
+#' de {{ggtext}}.
+#' @param ... los elementos correspondientes al formato de element_text. 
+#'
+#' @return una función con base en la elección
+#' @export
+formt_text = function(markdown = F,
+                      ...){
+  f <- if(markdown) ggtext::element_markdown
+  else element_text
+  f(...)
+}
+
 #' Tema inicial con formato general
 #'
 #' Esta resume las funciones de estilo utilizadas en mis gráficas
@@ -351,17 +383,22 @@ ggsave_mult <- function(format = ".png",
 #' @return Tema para gráficas de ggplot
 #' @export
 #'
-mi_tema <- function(...) {
+mi_tema <- function(...,
+                    markdown = F) {
   ggplot2::theme_minimal() +
     ggplot2::theme(text = element_text(family = "Lato"),
                    axis.line = element_line(size = 0.3),
-                   plot.title = element_text(hjust = 0.5,
+                   plot.title = formt_text(markdown = markdown,
+                                           hjust = 0.5,
                                              size = 14, face = "bold",
                                              color = "grey20"),
-                   plot.subtitle = element_text(hjust = 0.5,
+                   plot.title.position = "plot",
+                   plot.subtitle = formt_text(markdown = markdown,
+                                              hjust = 0.5,
                                                 size = 12,
                                                 color = "gray50"),
-                   plot.caption =  element_text(color = "gray50",
+                   plot.caption =  formt_text(markdown = markdown,
+                                              color = "gray50",
                                                 size = 10,
                                                 hjust = 0),
                    panel.grid = element_line(linetype = 2,
@@ -369,6 +406,9 @@ mi_tema <- function(...) {
                                              color = "gray90"),
                    # panel.grid = element_blank(),
                    panel.grid.minor = element_blank(),
+                   legend.key.width= unit(1, 'cm'),
+                   legend.margin = margin(0,0,0,0),
+                   legend.spacing = unit(0, "cm"),
                    strip.background = element_rect(fill = "gray95",
                                                    linetype = "blank"),
                    panel.border = element_rect(color = "gray95",

@@ -1,5 +1,3 @@
-u <- Sys.setlocale("LC_ALL", "es_ES.UTF-8")
-
 #' Desagrupar por fila
 #'
 #' Esta función sirve para desagrupar un dataframe agrupado por

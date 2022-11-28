@@ -4,7 +4,7 @@
 \alias{mi_tema}
 \title{Tema inicial con formato general}
 \usage{
-mi_tema(...)
+mi_tema(..., markdown = F)
 }
 \arguments{
 \item{...}{cambios en el tema}
