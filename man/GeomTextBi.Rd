@@ -17,8 +17,6 @@ GeomTextBi
 Una nueva capa de texto para una gráfica
 }
 \description{
-Esta función sirve para añadir fácilmente los valores para los barras de variación
-en valores negativos y positivos. Sólo se esplican los parámetros que difieren de
-geom_text() normal
+Esta función es la gase de geom_text_bi()
 }
 \keyword{datasets}

@@ -36,3 +36,39 @@ guardar_obj <- function(data, nombre = "obj_guardado") {
 
 }
 
+
+
+#' Transformar mes a número
+#'
+#' Esta resume las funciones de estilo utilizadas en mis gráficas
+#' con estilo html
+#'
+#' @param ... cambios en el tema
+#'
+#' @return Tema en html para gráficas de ggplot
+#' @export
+month_to_number <- function(mes) {
+  as.numeric(
+    format(
+      as.Date(
+        paste0("01/", substr(mes, 1, 3), "/01"),
+        format = "%y/%b/%d"),
+      "%m"))
+}
+
+#' Transformar número a mes
+#'
+#' Esta resume las funciones de estilo utilizadas en mis gráficas
+#' con estilo html
+#'
+#' @param ... cambios en el tema
+#'
+#' @return Tema en html para gráficas de ggplot
+#' @export
+number_to_month <- function(mes) {
+  format(as.Date(paste0("01/", mes, "/01")),
+         "%B",
+         locale = readr::locale("es"))
+}
+
+

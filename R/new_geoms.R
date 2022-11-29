@@ -452,3 +452,49 @@ mi_tema_html <- function(...) {
                    rect = element_rect(fill = "transparent")) +
     ggplot2::theme(...)
 }
+
+
+#' ggplot layer before last one
+#'
+#' ...
+#'
+#' @param plot
+#'
+#' @return plot
+#' @export
+`-.gg` <- function(plot, layer) {
+  if (missing(layer)) {
+    stop("Cannot use `-.gg()` with a single argument. Did you accidentally put - on a new line?")
+  }
+  if (!ggplot2::is.ggplot(plot)) {
+    stop('Need a plot on the left side')
+  }
+  plot$layers = c(layer, plot$layers)
+  plot
+}
+
+
+
+#' insertar ggplot layer
+#'
+#' ...
+#'
+#' @param plot
+#'
+#' @return plot
+#' @export
+insertLayer <- function(P, after=0, ...) {
+  #  P     : Plot object
+  # after  : Position where to insert new layers, relative to existing layers
+  #  ...   : additional layers, separated by commas (,) instead of plus sign (+)
+  
+  if (after < 0)
+    after <- after + length(P$layers)
+  
+  if (!length(P$layers))
+    P$layers <- list(...)
+  else 
+    P$layers <- append(P$layers, list(...), after)
+  
+  return(P)
+}
