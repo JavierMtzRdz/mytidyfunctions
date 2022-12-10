@@ -363,14 +363,14 @@ ggsave_mult <- function(format = ".png",
 #'
 #' @param markdown booleano para determinar si usar la función de base o la
 #' de {{ggtext}}.
-#' @param ... los elementos correspondientes al formato de element_text. 
+#' @param ... los elementos correspondientes al formato de ggplot2::element_text. 
 #'
 #' @return una función con base en la elección
 #' @export
 formt_text = function(markdown = F,
                       ...){
   f <- if(markdown) ggtext::element_markdown
-  else element_text
+  else ggplot2::element_text
   f(...)
 }
 
@@ -386,8 +386,8 @@ formt_text = function(markdown = F,
 mi_tema <- function(...,
                     markdown = F) {
   ggplot2::theme_minimal() +
-    ggplot2::theme(text = element_text(family = "Lato"),
-                   axis.line = element_line(size = 0.3),
+    ggplot2::theme(text = ggplot2::element_text(family = "Lato"),
+                   axis.line = ggplot2::element_line(size = 0.3),
                    plot.title = formt_text(markdown = markdown,
                                            hjust = 0.5,
                                              size = 14, face = "bold",
@@ -401,19 +401,19 @@ mi_tema <- function(...,
                                               color = "gray50",
                                                 size = 10,
                                                 hjust = 0),
-                   panel.grid = element_line(linetype = 2,
+                   panel.grid = ggplot2::element_line(linetype = 2,
                                              size = 0.3,
                                              color = "gray90"),
-                   # panel.grid = element_blank(),
-                   panel.grid.minor = element_blank(),
+                   # panel.grid = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
                    legend.key.width= unit(0.7, 'cm'),
                    legend.margin = margin(0,0,0,0),
                    legend.spacing = unit(0, "cm"),
-                   strip.background = element_rect(fill = "gray95",
+                   strip.background = ggplot2::element_rect(fill = "gray95",
                                                    linetype = "blank"),
-                   panel.border = element_rect(color = "gray95",
+                   panel.border = ggplot2::element_rect(color = "gray95",
                                                fill = NA),
-                   rect = element_rect(fill = "transparent")) +
+                   rect = ggplot2::element_rect(fill = "transparent")) +
     ggplot2::theme(...)
 }
 
@@ -429,8 +429,8 @@ mi_tema <- function(...,
 #' @export
 mi_tema_html <- function(...) {
   ggplot2::theme_minimal() +
-    ggplot2::theme(text = element_text(family = "Lato"),
-                   axis.line = element_line(size = 0.3),
+    ggplot2::theme(text = ggplot2::element_text(family = "Lato"),
+                   axis.line = ggplot2::element_line(size = 0.3),
                    plot.title = ggtext::element_markdown(hjust = 0.5,
                                                          size = 14, face = "bold",
                                                          color = "grey20"),
@@ -440,16 +440,16 @@ mi_tema_html <- function(...) {
                    plot.caption =  ggtext::element_markdown(color = "gray50",
                                                             size = 9,
                                                             hjust = 0),
-                   panel.grid = element_line(linetype = 2,
+                   panel.grid = ggplot2::element_line(linetype = 2,
                                              size = 0.3,
                                              color = "gray90"),
-                   # panel.grid = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   strip.background = element_rect(fill = "gray95",
+                   # panel.grid = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   strip.background = ggplot2::element_rect(fill = "gray95",
                                                    linetype = "blank"),
-                   panel.border = element_rect(color = "gray95",
+                   panel.border = ggplot2::element_rect(color = "gray95",
                                                fill = NA),
-                   rect = element_rect(fill = "transparent")) +
+                   rect = ggplot2::element_rect(fill = "transparent")) +
     ggplot2::theme(...)
 }
 

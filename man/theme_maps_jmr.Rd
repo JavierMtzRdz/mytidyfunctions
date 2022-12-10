@@ -4,7 +4,7 @@
 \alias{theme_maps_jmr}
 \title{Tema para mapas}
 \usage{
-theme_maps_jmr(variables)
+theme_maps_jmr(...)
 }
 \arguments{
 \item{...}{cambios en el tema}

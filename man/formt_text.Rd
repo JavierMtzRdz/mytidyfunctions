@@ -10,7 +10,7 @@ formt_text(markdown = F, ...)
 \item{markdown}{booleano para determinar si usar la función de base o la
 de {{ggtext}}.}
 
-\item{...}{los elementos correspondientes al formato de element_text.}
+\item{...}{los elementos correspondientes al formato de ggplot2::element_text.}
 }
 \value{
 una función con base en la elección

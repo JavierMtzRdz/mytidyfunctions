@@ -8,7 +8,7 @@
 #' @return Tema en html para gráficas de ggplot
 #' @export
 
-theme_maps_jmr <- function(variables) {
+theme_maps_jmr <- function(...) {
   
   ggplot2::theme_void() +
     theme(legend.position = "top",
@@ -26,8 +26,10 @@ theme_maps_jmr <- function(variables) {
                                                size = 10, hjust = 0.15),
           plot.margin = unit(c(0, 0, 0, 0), "null"),
           panel.border = ggplot2::element_blank(),
+          legend.margin = margin(0,0,0,0),
+          legend.spacing = unit(0, "cm"),
           panel.spacing = unit(c(0, 0, 0, 0), "null")) +
-    theme()
+    theme(...)
   
 }
 
