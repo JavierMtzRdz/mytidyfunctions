@@ -12,7 +12,7 @@ theme_maps_jmr <- function(...) {
   
   ggplot2::theme_void() +
     theme(legend.position = "top",
-          legend.position = c(.75, .825),
+          # legend.position = c(.75, .825),
           panel.background = ggplot2::element_rect(fill = "transparent",
                                                    color = "transparent"),
           plot.title.position = "plot",
