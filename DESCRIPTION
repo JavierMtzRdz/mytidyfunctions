@@ -15,7 +15,8 @@ Imports:
     rlang,
     ggtext,
     writexl,
-    sf
+    sf,
+    cli
 Suggests:
     ggplot2,
     purrr
