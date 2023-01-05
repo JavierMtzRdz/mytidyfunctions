@@ -509,11 +509,11 @@ insertLayer <- function(P, after=0, ...) {
 #' @export
 #' 
 log_both <- function(x){ifelse(x == 0, 0, log(abs(x)) * sign(x))}
+
 exp_both <- function(x){exp(abs(x)) * sign(x)} # this is the inverse of log_both
 
-log_both_trans <- 
-  function(){
-    trans_new(name = 'log_both', 
+log_both_trans <- function(){
+    scales::trans_new(name = 'log_both', 
               transform = log_both,
               inverse = exp_both)
   }
