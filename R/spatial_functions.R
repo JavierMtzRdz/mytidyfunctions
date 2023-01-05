@@ -38,7 +38,7 @@ theme_maps_jmr <- function(...) {
 #'
 #' ...
 #'
-#' @param ..x
+#' @param .x
 #'
 #' @return sf object
 #' @export
@@ -96,6 +96,34 @@ add_zoom <- function(.plot = last_plot()) {
                                               xlim = c(-100, -94))), 
       xmin = -119.5, xmax = -106, 
       ymin = 13.5, ymax = 22.8) 
+  
+}
+
+#' Límites determinados por geometries
+#'
+#' ...
+#'
+#' @param .x
+#'
+#' @return layer con límites
+#' @export
+make_limit <- function(.x,
+                       lon_buff = 0.2,
+                       lat_buff = 0.2){
+  
+  area <- .x %>% 
+    sf::st_coordinates() %>%
+    data.frame() %>%
+    dplyr::transmute(x_lon = X,
+              y_lat = Y)
+  
+  limits <- list(ggplot2::ylim(c(min(area$y_lat) - lat_buff,
+                        max(area$y_lat) + lat_buff)),
+                 ggplot2::xlim(c(min(area$x_lon) - lon_buff,
+                        max(area$x_lon) + lon_buff)))
+  
+  
+  return(limits)
   
 }
 

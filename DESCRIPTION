@@ -14,7 +14,8 @@ Imports:
     tidyverse (>= 1.3.0),
     rlang,
     ggtext,
-    writexl
+    writexl,
+    sf
 Suggests:
     ggplot2,
     purrr
