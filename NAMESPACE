@@ -3,6 +3,7 @@
 S3method("-",gg)
 export(GeomTextBi)
 export(add_zoom)
+export(buffer_osm)
 export(c_pol_crs)
 export(formt_text)
 export(geom_segment_point)

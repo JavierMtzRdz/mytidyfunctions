@@ -127,4 +127,25 @@ make_limit <- function(.x,
   
 }
 
+#' Buffer to osm matrix
+#'
+#' ...
+#'
+#' @param .x
+#'
+#' @return layer con límites
+#' @export
+
+buffer_osm <- function(., buffer_x = 1, buffer_y = 1) {
+  a <- .
+  a[1] <- a[1]-buffer_x
+  a[3] <- a[3]+buffer_x
+  
+  a[2] <- a[2]-buffer_y
+  a[4] <- a[4]+buffer_y
+  
+  return(a)
+  
+}
+
 
