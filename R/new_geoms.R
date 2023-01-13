@@ -40,7 +40,7 @@ default_aes = ggplot2::aes(
   size = 3.88, angle = 0, 
   percent_change = 0.25,
   hjust = 0.5, vjust = 0.5,
-  hdist = 0.1, vdist = 0.1,
+  hdist = 0.4, vdist = 0.4,
   alpha = NA, family = "", 
   fontface = 1, lineheight = 1.2
 ),
