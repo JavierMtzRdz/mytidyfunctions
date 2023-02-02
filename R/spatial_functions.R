@@ -60,7 +60,8 @@ c_pol_crs <- function(.x, crs = 4326) {
 #'
 #' ...
 #'
-#' @param ..x
+#' @param .x
+#' 
 #'
 #' @return sf object
 #' @export
@@ -88,10 +89,17 @@ add_zoom <- function(coor_xmin = -100.29,
     ub_ymax = ub_ymax)
 }
 
-
-
+#' Añadir método para hacer el zoom
+#'
+#' ...
+#'
+#' @param ..x
+#' 
+#' @importFrom ggplot2 ggplot_add
+#'
+#' @return sf object
+#' @export
 ggplot_add.my_zoom <- function(object, plot, object_name) {
-
 
   fn <- attr(object, "fn")
 
@@ -105,7 +113,7 @@ ggplot_add.my_zoom <- function(object, plot, object_name) {
   )
 
 
-  new_plot
+  return(new_plot)
 }
 
 #' Función interna para hacer zoom

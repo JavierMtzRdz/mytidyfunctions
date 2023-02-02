@@ -16,7 +16,7 @@ add_zoom(
 )
 }
 \arguments{
-\item{..x}{}
+\item{.x}{}
 }
 \value{
 sf object
