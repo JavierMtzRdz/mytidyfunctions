@@ -3,7 +3,7 @@
 \docType{data}
 \name{GeomTextBi}
 \alias{GeomTextBi}
-\title{Ggproto del goeom text para barras}
+\title{Ggproto del geom text para barras}
 \format{
 An object of class \code{GeomTextBi} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
 }

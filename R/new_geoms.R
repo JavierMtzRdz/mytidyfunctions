@@ -22,7 +22,7 @@ width_bar <- function(variable){
   return(ancho_barras)
 }
 
-#' Ggproto del goeom text para barras
+#' Ggproto del geom text para barras
 #'
 #' Esta función es la gase de geom_text_bi()
 #'
@@ -30,83 +30,83 @@ width_bar <- function(variable){
 #'
 #' @return Una nueva capa de texto para una gráfica
 #' @export
-#' 
+#'
 
 GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
 required_aes = c("x", "y", "label"),
 
 default_aes = ggplot2::aes(
   # colour = "black",
-  size = 3.88, angle = 0, 
+  size = 3.88, angle = 0,
   percent_change = 0.25,
   hjust = 0.5, vjust = 0.5,
   hdist = 0.27, vdist = 0.27,
-  alpha = NA, family = "", 
+  alpha = NA, family = "",
   fontface = 1, lineheight = 1.2
 ),
 
 draw_panel = function(data, panel_params, coord, parse = FALSE,
                       na.rm = FALSE, check_overlap = FALSE,
                       dist_h = T,
-                      color_black = "grey15", 
+                      color_black = "grey15",
                       color_light = "grey95") {
   lab <- data$label
-  
+
   values <- data$y
-  
+
   width <- width_bar(data$y)
-  
+
   if (parse) {
     lab <- parse_safe(as.character(lab))
   }
-  
+
   data <- coord$transform(data, panel_params)
-  
+
   if (is.character(data$vjust)) {
     data$vjust <- compute_just(data$vjust, data$y, data$x, data$angle)
   }
   if (is.character(data$hjust)) {
     data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
   }
-  
+
   if (is.null(data$hjust)) {
     data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
   }
-  
+
   if (is.null(data$hjust)) {
     data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
   }
-  
-  
+
+
   if (dist_h) {
-    
+
     data$vjust <- ifelse((values >= 0 &
                             values/width >= data$percent_change) |
-                           (values < 0 & 
+                           (values < 0 &
                               abs(values)/width < data$percent_change),
                          data$vjust + 0.5 + data$vdist,
                          data$vjust - 0.5 - data$vdist
     )
-    
+
     data$colour <- ifelse(abs(values)/width < data$percent_change,
                           color_black,
                           color_light)
-    
+
   } else {
-    
+
     data$hjust <- ifelse((values >= 0 &
                             values/width >= data$percent_change) |
-                           (values < 0 & 
+                           (values < 0 &
                               abs(values)/width < data$percent_change),
                          data$hjust + 0.5 + data$hdist,
                          data$hjust - 0.5 - data$hdist)
-    
+
     data$colour <- ifelse(abs(values)/width < data$percent_change,
                           color_black,
                           color_light)
-    
+
   }
-  
+
   grid::textGrob(
     lab,
     data$x, data$y, default.units = "native",
@@ -155,10 +155,10 @@ geom_text_bi <- function(mapping = NULL, data = NULL,
         "i" = "Only use one approach to alter the position"
       ))
     }
-    
+
     position <- ggplot2::position_nudge(nudge_x, nudge_y)
   }
-  
+
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -363,7 +363,7 @@ ggsave_mult <- function(format = ".png",
 #'
 #' @param markdown booleano para determinar si usar la función de base o la
 #' de {{ggtext}}.
-#' @param ... los elementos correspondientes al formato de ggplot2::element_text. 
+#' @param ... los elementos correspondientes al formato de ggplot2::element_text.
 #'
 #' @return una función con base en la elección
 #' @export
@@ -487,15 +487,15 @@ insertLayer <- function(P, after=0, ...) {
   #  P     : Plot object
   # after  : Position where to insert new layers, relative to existing layers
   #  ...   : additional layers, separated by commas (,) instead of plus sign (+)
-  
+
   if (after < 0)
     after <- after + length(P$layers)
-  
+
   if (!length(P$layers))
     P$layers <- list(...)
-  else 
+  else
     P$layers <- append(P$layers, list(...), after)
-  
+
   return(P)
 }
 
@@ -507,13 +507,13 @@ insertLayer <- function(P, after=0, ...) {
 #'
 #' @return Values converted
 #' @export
-#' 
+#'
 log_both <- function(x){ifelse(x == 0, 0, log(abs(x)) * sign(x))}
 
 exp_both <- function(x){exp(abs(x)) * sign(x)} # this is the inverse of log_both
 
 log_both_trans <- function(){
-    scales::trans_new(name = 'log_both', 
+    scales::trans_new(name = 'log_both',
               transform = log_both,
               inverse = exp_both)
   }
