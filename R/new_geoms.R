@@ -40,7 +40,7 @@ default_aes = ggplot2::aes(
   size = 3.88, angle = 0,
   percent_change = 0.25,
   hjust = 0.5, vjust = 0.5,
-  hdist = 0.27, vdist = 0.27,
+  hdist = 0.05, vdist = 0.27,
   alpha = NA, family = "",
   fontface = 1, lineheight = 1.2
 ),
@@ -52,13 +52,14 @@ draw_panel = function(data, panel_params, coord, parse = FALSE,
                       color_light = "grey95") {
   lab <- data$label
 
-  values <- data$y
-
-  width <- width_bar(data$y)
 
   if (parse) {
     lab <- parse_safe(as.character(lab))
   }
+  
+  values <- data$y
+
+  width <- width_bar(panel_params$x.range)
 
   data <- coord$transform(data, panel_params)
 
