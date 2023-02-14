@@ -155,11 +155,16 @@ add_zoom_fun <- function(.plot,
 
   plot1 <- .plot
   plot1$layers <- append(.plot$layers,
-                         list(ggplot2::geom_rect(xmin = coor_xmin,
-                                                 xmax = coor_xmax,
-                                                 ymin = coor_ymin,
-                                                 ymax = coor_ymax,
-                                                 size = 0.35,
+                         list(ggplot2::geom_rect(data = 
+                                                   data.frame(xmin = coor_xmin,
+                                                              xmax = coor_xmax,
+                                                              ymin = coor_ymin,
+                                                              ymax = coor_ymax),
+                                                 aes(xmin = xmin, 
+                                                     xmax = xmax,
+                                                     ymin = ymin, 
+                                                     ymax = ymax),
+                                                 linewidth = 0.35,
                                                  fill = "transparent",
                                                  color = "grey10")),
                          after = min_position)
