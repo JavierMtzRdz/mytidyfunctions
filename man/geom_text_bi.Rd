@@ -16,7 +16,11 @@ geom_text_bi(
   check_overlap = FALSE,
   na.rm = FALSE,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  position_hor = T,
+  percent_change = 0.25,
+  color_black = "grey15",
+  color_light = "grey95"
 )
 }
 \arguments{
