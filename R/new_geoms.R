@@ -88,16 +88,15 @@ GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
                                                            values/width >= data$percent_change) |
                                                           (values < 0 &
                                                              abs(values)/width < data$percent_change),
-                                                        data$vjust + 0.7 + data$vdist,
-                                                        data$vjust - 0.7 - data$vdist
-                                   )
+                                                        data$vjust + 0.9 - data$vdist - ifelse(data$angle == 90, 0.9, 0),
+                                                        data$vjust - 0.9 + data$vdist + ifelse(data$angle == 90, 0.9, 0)                                   )
                                    
                                    data$hjust <- ifelse((values >= 0 &
                                                            values/width >= data$percent_change) |
                                                           (values < 0 &
                                                              abs(values)/width < data$percent_change),
-                                                        data$hjust  + data$hdist,
-                                                        data$hjust  - data$hdist)
+                                                        data$hjust + data$hdist + ifelse(data$angle == 90, 0.6, 0),
+                                                        data$hjust - data$hdist - ifelse(data$angle == 90, 0.6, 0))
                                    
                                    
                                    
@@ -113,16 +112,16 @@ GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
                                                            values/width >= data$percent_change) |
                                                           (values < 0 &
                                                              abs(values)/width < data$percent_change),
-                                                        data$hjust + 0.55 + data$hdist,
-                                                        data$hjust - 0.55 - data$hdist)
+                                                        data$hjust + 0.6 - data$hdist - ifelse(data$angle == -90, 0.6, 0),
+                                                        data$hjust - 0.6 + data$hdist + ifelse(data$angle == -90, 0.6, 0))
                                    
                                    
                                    data$vjust <- ifelse((values >= 0 &
                                                            values/width >= data$percent_change) |
                                                           (values < 0 &
                                                              abs(values)/width < data$percent_change),
-                                                        data$vjust  + data$vdist,
-                                                        data$vjust  - data$vdist)
+                                                        data$vjust - 0.05 + data$vdist + ifelse(data$angle == -90, 0.8, 0),
+                                                        data$vjust + 0.05 - data$vdist - ifelse(data$angle == -90, 0.8, 0))
                                    
                                    
                                    data$colour <- ifelse(abs(values)/width < data$percent_change,
