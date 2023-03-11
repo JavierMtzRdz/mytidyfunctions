@@ -33,103 +33,121 @@ width_bar <- function(variable){
 #'
 
 GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
-                                required_aes = c("x", "y", "label"),
-                                
-                                default_aes = ggplot2::aes(
-                                  # colour = "black",
-                                  size = 3.88, angle = 0,
-                                  hjust = 0.5, vjust = 0.5,
-                                  hdist = 0.05, vdist = 0.27,
-                                  alpha = NA, family = "",
-                                  fontface = 1, lineheight = 1.2,
-                                  position_hor = T,
-                                  percent_change = 0.25,
-                                  color_black = "grey15",
-                                  color_light = "grey95"
-                                ),
-                                
-                                draw_panel = function(data, panel_params, coord, parse = FALSE,
-                                                      na.rm = FALSE, check_overlap = FALSE,
-                                                      position_hor = T,
-                                                      color_black = "grey15",
-                                                      color_light = "grey95") {
-                                  lab <- data$label
-                                  
-                                  
-                                  if (parse) {
-                                    lab <- parse_safe(as.character(lab))
-                                  }
-                                  
-                                  values <- data$y
-                                  
-                                  data <- coord$transform(data, panel_params)
-                                  
-                                  if (is.character(data$vjust)) {
-                                    data$vjust <- compute_just(data$vjust, data$y, data$x, data$angle)
-                                  }
-                                  if (is.character(data$hjust)) {
-                                    data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
-                                  }
-                                  
-                                  if (is.null(data$hjust)) {
-                                    data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
-                                  }
-                                  
-                                  if (is.null(data$hjust)) {
-                                    data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
-                                  }
-                                  
-                                  
-                                  if (position_hor) {
-                                    
-                                    width <- width_bar(panel_params$y.range)
-                                    
-                                    data$vjust <- ifelse((values >= 0 &
-                                                            values/width >= data$percent_change) |
-                                                           (values < 0 &
-                                                              abs(values)/width < data$percent_change),
-                                                         data$vjust + 0.5 + data$vdist,
-                                                         data$vjust - 0.5 - data$vdist
-                                    )
-                                    
-                                    data$colour <- ifelse(abs(values)/width < data$percent_change,
-                                                          color_black,
-                                                          color_light)
-                                    
-                                  } else {
-                                    
-                                    width <- width_bar(panel_params$x.range)
-                                    
-                                    data$hjust <- ifelse((values >= 0 &
-                                                            values/width >= data$percent_change) |
-                                                           (values < 0 &
-                                                              abs(values)/width < data$percent_change),
-                                                         data$hjust + 0.5 + data$hdist,
-                                                         data$hjust - 0.5 - data$hdist)
-                                    
-                                    data$colour <- ifelse(abs(values)/width < data$percent_change,
-                                                          color_black,
-                                                          color_light)
-                                    
-                                  }
-                                  
-                                  grid::textGrob(
-                                    lab,
-                                    data$x, data$y, default.units = "native",
-                                    hjust = data$hjust, vjust = data$vjust,
-                                    rot = data$angle,
-                                    gp = grid::gpar(
-                                      col = ggplot2::alpha(data$colour, data$alpha),
-                                      fontsize = data$size * .pt,
-                                      fontfamily = data$family,
-                                      fontface = data$fontface,
-                                      lineheight = data$lineheight
-                                    ),
-                                    check.overlap = check_overlap
-                                  )
-                                },
-                                
-                                draw_key = ggplot2::draw_key_text
+                               required_aes = c("x", "y", "label"),
+                               
+                               default_aes = ggplot2::aes(
+                                 # colour = "black",
+                                 size = 3.88, angle = 0,
+                                 hjust = 0.5, vjust = 0.5,
+                                 hdist = 0, vdist = 0,
+                                 alpha = NA, family = "",
+                                 fontface = 1, lineheight = 1.2,
+                                 position_hor = T,
+                                 percent_change = 0.25,
+                                 color_black = "grey15",
+                                 color_light = "grey95"
+                               ),
+                               
+                               draw_panel = function(data, panel_params, coord, parse = FALSE,
+                                                     na.rm = FALSE, check_overlap = FALSE,
+                                                     position_hor = T,
+                                                     color_black = "grey15",
+                                                     color_light = "grey95") {
+                                 lab <- data$label
+                                 
+                                 
+                                 if (parse) {
+                                   lab <- parse_safe(as.character(lab))
+                                 }
+                                 
+                                 values <- data$y
+                                 
+                                 data <- coord$transform(data, panel_params)
+                                 
+                                 if (is.character(data$vjust)) {
+                                   data$vjust <- compute_just(data$vjust, data$y, data$x, data$angle)
+                                 }
+                                 if (is.character(data$hjust)) {
+                                   data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+                                 }
+                                 
+                                 if (is.null(data$hjust)) {
+                                   data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+                                 }
+                                 
+                                 if (is.null(data$hjust)) {
+                                   data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+                                 }
+                                 
+                                 
+                                 if (position_hor) {
+                                   
+                                   width <- width_bar(panel_params$y.range)
+                                   
+                                   data$vjust <- ifelse((values >= 0 &
+                                                           values/width >= data$percent_change) |
+                                                          (values < 0 &
+                                                             abs(values)/width < data$percent_change),
+                                                        data$vjust + 0.7 + data$vdist,
+                                                        data$vjust - 0.7 - data$vdist
+                                   )
+                                   
+                                   data$hjust <- ifelse((values >= 0 &
+                                                           values/width >= data$percent_change) |
+                                                          (values < 0 &
+                                                             abs(values)/width < data$percent_change),
+                                                        data$hjust  + data$hdist,
+                                                        data$hjust  - data$hdist)
+                                   
+                                   
+                                   
+                                   data$colour <- ifelse(abs(values)/width < data$percent_change,
+                                                         color_black,
+                                                         color_light)
+                                   
+                                 } else {
+                                   
+                                   width <- width_bar(panel_params$x.range)
+                                   
+                                   data$hjust <- ifelse((values >= 0 &
+                                                           values/width >= data$percent_change) |
+                                                          (values < 0 &
+                                                             abs(values)/width < data$percent_change),
+                                                        data$hjust + 0.55 + data$hdist,
+                                                        data$hjust - 0.55 - data$hdist)
+                                   
+                                   
+                                   data$vjust <- ifelse((values >= 0 &
+                                                           values/width >= data$percent_change) |
+                                                          (values < 0 &
+                                                             abs(values)/width < data$percent_change),
+                                                        data$vjust  + data$vdist,
+                                                        data$vjust  - data$vdist)
+                                   
+                                   
+                                   data$colour <- ifelse(abs(values)/width < data$percent_change,
+                                                         color_black,
+                                                         color_light)
+                                   
+                                 }
+                                 
+                                 grid::textGrob(
+                                   lab,
+                                   data$x, data$y, default.units = "native",
+                                   hjust = data$hjust, vjust = data$vjust,
+                                   rot = data$angle,
+                                   gp = grid::gpar(
+                                     col = ggplot2::alpha(data$colour, data$alpha),
+                                     fontsize = data$size * .pt,
+                                     fontfamily = data$family,
+                                     fontface = data$fontface,
+                                     lineheight = data$lineheight
+                                   ),
+                                   check.overlap = check_overlap
+                                 )
+                               },
+                               
+                               draw_key = ggplot2::draw_key_text
 )
 
 
