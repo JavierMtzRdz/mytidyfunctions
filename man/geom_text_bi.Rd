@@ -20,7 +20,9 @@ geom_text_bi(
   position_hor = T,
   percent_change = 0.25,
   color_black = "grey15",
-  color_light = "grey95"
+  color_light = "grey95",
+  hdist = 0,
+  vdist = 0
 )
 }
 \arguments{

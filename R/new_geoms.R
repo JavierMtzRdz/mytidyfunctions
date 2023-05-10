@@ -173,7 +173,8 @@ geom_text_bi <- function(mapping = NULL, data = NULL,
                          position_hor = T,
                          percent_change = 0.25,
                          color_black = "grey15",
-                         color_light = "grey95")
+                         color_light = "grey95",
+                         hdist = 0, vdist = 0)
 {
   if (!missing(nudge_x) || !missing(nudge_y)) {
     if (!missing(position)) {
@@ -199,6 +200,7 @@ geom_text_bi <- function(mapping = NULL, data = NULL,
       percent_change = percent_change,
       color_black = color_black,
       color_light = color_light,
+      hdist = hdist, vdist = vdist,
       parse = parse,
       check_overlap = check_overlap,
       na.rm = na.rm,
