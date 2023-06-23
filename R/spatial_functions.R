@@ -244,7 +244,7 @@ make_limit <- function(.x,
   limits <- list(ggplot2::ylim(c(min(area$y_lat) - lat_buff[1],
                                  max(area$y_lat) + lat_buff[2])),
                  ggplot2::xlim(c(min(area$x_lon) - lon_buff[1],
-                                 max(area$x_lon) + lon_buff2[2])))
+                                 max(area$x_lon) + lon_buff[2])))
   
   
   return(limits)
