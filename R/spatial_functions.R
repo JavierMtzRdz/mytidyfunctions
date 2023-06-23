@@ -224,23 +224,31 @@ add_zoom_fun <- function(.plot,
 #' @return layer con límites
 #' @export
 make_limit <- function(.x,
-                       lon_buff = 0.2,
-                       lat_buff = 0.2){
-
+                        lon_buff = 0.2,
+                        lat_buff = 0.2){
+  
+  lat_buff[2] <- ifelse(is.na(lat_buff[2]),
+                        lat_buff,
+                        lat_buff[2])
+  
+  lon_buff[2] <- ifelse(is.na(lon_buff[2]),
+                        lon_buff,
+                        lon_buff[2])
+  
   area <- .x %>%
     sf::st_coordinates() %>%
     data.frame() %>%
     dplyr::transmute(x_lon = X,
-              y_lat = Y)
-
-  limits <- list(ggplot2::ylim(c(min(area$y_lat) - lat_buff,
-                        max(area$y_lat) + lat_buff)),
-                 ggplot2::xlim(c(min(area$x_lon) - lon_buff,
-                        max(area$x_lon) + lon_buff)))
-
-
+                     y_lat = Y)
+  
+  limits <- list(ggplot2::ylim(c(min(area$y_lat) - lat_buff[1],
+                                 max(area$y_lat) + lat_buff[2])),
+                 ggplot2::xlim(c(min(area$x_lon) - lon_buff[1],
+                                 max(area$x_lon) + lon_buff2[2])))
+  
+  
   return(limits)
-
+  
 }
 
 #' Buffer to osm matrix
