@@ -11,7 +11,7 @@
 theme_maps_jmr <- function(...) {
 
   ggplot2::theme_void() +
-    theme(legend.position = "top",
+    ggplot2::theme(legend.position = "top",
           # legend.position = c(.75, .825),
           panel.background = ggplot2::element_rect(fill = "transparent",
                                                    color = "transparent"),
@@ -19,17 +19,18 @@ theme_maps_jmr <- function(...) {
           text = ggplot2::element_text(family = "Lato"),
           plot.title = ggplot2::element_text(hjust = 0.85,
                                              vjust = -10,
-                                             size = 16, face = "bold", color = "grey20"),
+                                             size = 16, face = "bold",
+                                             color = "grey20"),
           plot.subtitle = ggplot2::element_text(hjust = 0.5,
                                                 size = 12, color = "gray50"),
           plot.caption = ggplot2::element_text(color = "gray50",
                                                size = 10, hjust = 0.15),
           plot.margin = unit(c(0, 0, 0, 0), "null"),
           panel.border = ggplot2::element_blank(),
-          legend.margin = margin(0,0,0,0),
+          legend.margin = ggplot2::margin(0,0,0,0),
           legend.spacing = unit(0, "cm"),
           panel.spacing = unit(c(0, 0, 0, 0), "null")) +
-    theme(...)
+    ggplot2::theme(...)
 
 }
 
@@ -168,18 +169,6 @@ add_zoom_fun <- function(.plot,
                                                  fill = "transparent",
                                                  color = "grey10")),
                          after = min_position)
-  # plot1
-  #
-  # !length(.plot$layers)
-
-  # plot1 <- insertLayer(.plot,
-  #                      after = min_position,
-  #                      ggplot2::geom_rect(xmin = -100.29,
-  #                                         xmax = -93.71,
-  #                                         ymin = 15.6,
-  #                                         ymax = 20.21,
-  #                                         fill = "transparent",
-  #                                         color = "grey10"))
 
   zoom_plot <- .plot
 
@@ -280,15 +269,15 @@ buffer_osm <- function(., buffer_x = 1, buffer_y = 1) {
 #'
 #' @return layer con límites
 #' @export
-get_cent_oms <- function(lugar = NA) {
-
-  lugar_matrix <- osmdata::getbb(lugar)
-
-  df_cent <- dplyr::tibble(nombre = lugar,
-                           lat = mean(lugar_matrix[2,]),
-                           lon = mean(lugar_matrix[1,]))
-
-  return(df_cent)
-}
+# get_cent_oms <- function(lugar = NA) {
+# 
+#   lugar_matrix <- osmdata::getbb(lugar)
+# 
+#   df_cent <- dplyr::tibble(nombre = lugar,
+#                            lat = mean(lugar_matrix[2,]),
+#                            lon = mean(lugar_matrix[1,]))
+# 
+#   return(df_cent)
+# }
 
 
