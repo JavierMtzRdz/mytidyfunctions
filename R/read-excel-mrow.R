@@ -11,20 +11,11 @@
 #'
 #' @return A data frame containing the data from the Excel file with multi-row titles.
 #'
-#' @examples
-#' # Read Excel file with multi-row titles
-#' data <- read_excel_mul("data.xlsx", range_title = c(1, 3))
 #'
-#' @importFrom readxl read_excel
-#' @importFrom dplyr across everything
-#' @importFrom dplyr summarise
-#' @importFrom base paste
-#' @importFrom base setNames
 #' @export
 read_excel_mrow <- function(path, 
                            range_title,
-                           sheet = NULL, 
-                           ...) {
+                           sheet = NULL) {
   max_range <- range_title[2] - range_title[1] + 1
   
   title <- readxl::read_excel(path,
@@ -40,7 +31,8 @@ read_excel_mrow <- function(path,
   
   data <- readxl::read_excel(path,
                              skip = range_title[2], col_names = FALSE,
-                             .name_repair = "minimal") |> 
+                             .name_repair = "minimal",
+                             ...) |> 
     setNames(title_vec) 
   
   return(data)
