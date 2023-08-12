@@ -19,6 +19,7 @@ Imports:
     scales,
     ggtext,
     writexl,
+    readxl,
     sf,
     cli
 Suggests:
