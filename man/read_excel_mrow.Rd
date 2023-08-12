@@ -4,7 +4,7 @@
 \alias{read_excel_mrow}
 \title{Read Excel File with Multi-Row Titles (read_excel_mul)}
 \usage{
-read_excel_mrow(path, range_title, sheet = NULL)
+read_excel_mrow(path, range_title, sheet = NULL, ...)
 }
 \arguments{
 \item{path}{The path to the Excel file to be read.}

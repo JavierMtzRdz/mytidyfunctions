@@ -15,7 +15,8 @@
 #' @export
 read_excel_mrow <- function(path, 
                            range_title,
-                           sheet = NULL) {
+                           sheet = NULL,
+                           ...) {
   max_range <- range_title[2] - range_title[1] + 1
   
   title <- readxl::read_excel(path,
