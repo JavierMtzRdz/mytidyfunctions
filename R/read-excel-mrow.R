@@ -23,8 +23,8 @@ read_excel_mrow <- function(path,
                               skip = range_title[1] - 1, 
                               col_names = FALSE,
                               n_max = max_range,
-                              .name_repair = "minimal") |> 
-    data.frame() |> 
+                              .name_repair = "minimal") %>% 
+    data.frame() %>% 
     dplyr::summarise(dplyr::across(dplyr::everything(),
                                    ~ paste(na.omit(.x), collapse = "_"))) 
   
@@ -33,7 +33,7 @@ read_excel_mrow <- function(path,
   data <- readxl::read_excel(path,
                              skip = range_title[2], col_names = FALSE,
                              .name_repair = "minimal",
-                             ...) |> 
+                             ...) %>% 
     setNames(title_vec) 
   
   return(data)
