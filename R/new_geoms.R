@@ -61,7 +61,7 @@ GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
                                   
                                   data <- coord$transform(data, panel_params)
                                   
-                                  if (is.na(data$colour)) {
+                                  if (any(is.na(data$colour))) {
                                     
                                     col_black <- data$colour_black[1]
                                     col_light <- data$colour_light[1]
@@ -104,7 +104,7 @@ GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
                                                          data$hjust - data$hdist - ifelse(data$angle == 90, 0.6, 0))
                                     
                                     
-                                    if (is.na(data$colour)) {
+                                    if (any(is.na(data$colour))) {
                                       
                                       data$colour <- ifelse(abs(values)/width < data$percent_change,
                                                             col_black,
@@ -132,7 +132,7 @@ GeomTextBi <- ggplot2::ggproto("GeomTextBi", ggplot2::Geom,
                                                          data$vjust + 0.05 - data$vdist - ifelse(data$angle == -90, 0.8, 0))
                                     
                                     
-                                    if (is.na(data$colour)) {
+                                    if (any(is.na(data$colour))) {
                                       
                                       data$colour <- ifelse(abs(values)/width < data$percent_change,
                                                             col_black,
