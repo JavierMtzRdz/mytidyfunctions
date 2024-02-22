@@ -32,7 +32,7 @@ theme_jmr <- function(...,
                    panel.grid.minor = ggplot2::element_blank(),
                    legend.key.width= unit(0.7, 'cm'),
                    legend.margin = margin(0,0,0,0),
-                   legend.spacing = unit(0.1, "cm"),
+                   legend.spacing = unit(0.2, "cm"),
                    legend.position = "top",
                    strip.background = ggplot2::element_rect(fill = "gray95",
                                                             linetype = "blank"),
@@ -43,27 +43,30 @@ theme_jmr <- function(...,
 }
 
 
-#' Paletas de colores de MCCI
+#' Paletas de colores
 #'
-#' Es una lista de las paletas de MCCI
+#' Es una lista de las paletas
 #'
 #' @format list
-#' @source Creación de comunicación de MCCI
-paletas_mcci <- list(
-  `general`  = c("#070B2D", "#F72732", "#7CDBA7", "#0E9A9D"),
-  `bivariado1`  = c("#070B2D", "#3A425F", "#667598",
-                    "#F72732", "#FF5454", "#FF9F9F"),
-  `bivariado2`  = c("#070B2D", "#3A425F", "#667598", "#9FB0D4",
-                    "#FF9F9F", "#FF5454", "#F72732", "#3C0605"),
-  `variado`  = c("#070B2D", "#3A425F", "#667598", "#9FB0D4",
-                 "#FF9F9F", "#FF5454", "#F72732", "#3C0605"),
-  `multiple`  = c("#070B2D",
-                  "#ff5454",
-                  "#7cdba7",
-                  "#0E9A9D",
-                  "#F27F44",
-                  "#f5e278",
-                  "#2d6177")
+paletas_jmr <- list(
+  `general`  = c("#1E81A2", "#FF483B", "#039176", "#FFAC41"),
+  `bi`  = c("#C6001C", "#FF5454", "#FF483B",
+            "#15607A", "#1E81A2", "#16A1CD"),
+  `multiple`  = c("#15607A",
+                  "#1E81A2",
+                  "#16A1CD",
+                  "#AED8FF",
+                  "#C6001C",
+                  "#FF5454",
+                  "#FF483B",
+                  "#FF8902",
+                  "#FFAC41",
+                  "#FFBE49",
+                  "#039176",
+                  "#0BBB9F",
+                  "#00DCA5",
+                  "#58F7B4",
+                  "#C5FFD7")
 )
 
 
@@ -78,8 +81,8 @@ paletas_mcci <- list(
 #' @return regresa una función con un argumento integer (el número de colores)
 #' y un vector de colores.
 #' @export
-mcci_pal <- function(palette = "general", reverse = FALSE, ...) {
-  pal <- paletas_mcci[[palette]]
+jmr_pal <- function(palette = "general", reverse = FALSE, ...) {
+  pal <- paletas_jmr[[palette]]
   
   if (reverse) pal <- rev(pal)
   
@@ -99,8 +102,8 @@ mcci_pal <- function(palette = "general", reverse = FALSE, ...) {
 #' @return regresa una función con un argumento integer (el número de colores)
 #' y un vector de colores.
 #' @export
-mcci_pal_manual <- function(n, palette = "general", reverse = FALSE, ...) {
-  pal <- paletas_mcci[[palette]]
+jmr_pal_manual <- function(n, palette = "general", reverse = FALSE, ...) {
+  pal <- paletas_jmr[[palette]]
   
   if (reverse) pal <- rev(pal)
   
@@ -108,7 +111,7 @@ mcci_pal_manual <- function(n, palette = "general", reverse = FALSE, ...) {
   
 }
 
-#' Función para añadir colores de MCCI a gráfica
+#' Función para añadir colores de  a gráfica
 #'
 #' Esta función añade la paleta de colores a la gráfica de ggplot.
 #'
@@ -121,8 +124,8 @@ mcci_pal_manual <- function(n, palette = "general", reverse = FALSE, ...) {
 #' @return regresa una función con un argumento integer (el número de colores)
 #' y un vector de colores.
 #' @export
-scale_color_mcci <- function(palette = "general", discrete = TRUE, reverse = FALSE, ...) {
-  pal <- mcci_pal(palette = palette, reverse = reverse)
+scale_color_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- jmr_pal(palette = palette, reverse = reverse)
   
   if (discrete) {
     ggplot2::discrete_scale("colour", palette, palette = pal, ...)
@@ -132,7 +135,7 @@ scale_color_mcci <- function(palette = "general", discrete = TRUE, reverse = FAL
 }
 
 
-#' Función para añadir fill MCCI a gráfica
+#' Función para añadir fill  a gráfica
 #'
 #' Esta función añade la paleta de fill a la gráfica de ggplot.
 #'
@@ -145,8 +148,8 @@ scale_color_mcci <- function(palette = "general", discrete = TRUE, reverse = FAL
 #' @return regresa una función con un argumento integer (el número de colores)
 #' y un vector de colores.
 #' @export
-scale_fill_mcci <- function(palette = "general", discrete = TRUE, reverse = FALSE, ...) {
-  pal <- mcci_pal(palette = palette, reverse = reverse)
+scale_fill_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- jmr_pal(palette = palette, reverse = reverse)
   
   if (discrete) {
     ggplot2::discrete_scale("fill", palette, palette = pal, ...)
