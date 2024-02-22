@@ -1,3 +1,13 @@
+
+#' Tema inicial con formato propio
+#'
+#' Esta resume las funciones de estilo utilizadas en mis gráficas
+#'
+#' @param ... cambios en el tema
+#'
+#' @return Tema para gráficas de ggplot
+#' @export
+#'
 theme_jmr <- function(...,
                       markdown = F) {
   ggplot2::theme_minimal() +
