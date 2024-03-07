@@ -48,6 +48,7 @@ theme_jmr <- function(...,
 #' Es una lista de las paletas
 #'
 #' @format list
+#' @export
 paletas_jmr <- list(
   `general`  = c("#1E81A2", "#039176", "#FFAC41", "#FF483B"),
   `bi`  = c("#C6001C", "#FF5454", "#FF483B",
