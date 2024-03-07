@@ -87,7 +87,7 @@ paletas_jmr <- list(
 #'
 #' Esta función genera nuevos colores cuando es necesario y determina orde.
 #'
-#' @param palette Determina qué paleta tomar.
+#' @param palette Determina qué paleta tomar. Puede ser `r names(paletas_jmr)`
 #' @param reverse Determina el orden de la paleta.
 #' @param ... Demás elementos correspondientes a grDevices::colorRampPalette()
 #'

@@ -7,7 +7,7 @@
 jmr_pal(palette = "general", reverse = FALSE, ...)
 }
 \arguments{
-\item{palette}{Determina qué paleta tomar.}
+\item{palette}{Determina qué paleta tomar. Puede ser `r names(paletas_jmr)`}
 
 \item{reverse}{Determina el orden de la paleta.}
 
