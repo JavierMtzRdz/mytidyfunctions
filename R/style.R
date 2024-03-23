@@ -50,9 +50,15 @@ theme_jmr <- function(...,
 #' @format list
 #' @export
 paletas_jmr <- list(
-  `general`  = c("#1E81A2", "#039176", "#FFAC41", "#FF483B"),
+  `general` = c("#277DA1", "#f94144", "#F9C74F", "#43AA8B"),
+  `imp1`  = c("#19749F", "#FF3E2B", "#008080", "#FEC260"),
+  `imp2`  = c("#1E81A2", "#039176", "#FFAC41", "#FF483B"),
   `bi`  = c("#C6001C", "#FF5454", "#FF483B",
             "#15607A", "#1E81A2", "#16A1CD"),
+  `rainbow` = c("#f94144", "#f3722c", "#f8961e", "#f9844a", "#f9c74f",
+                "#90be6d", "#43aa8b", "#4d908e", "#577590", "#277da1"),
+  `bi_2` = c("#001219","#005f73","#0a9396","#94d2bd","#e9d8a6",
+             "#ee9b00","#ca6702","#bb3e03","#ae2012","#9b2226"),
   `order_red`  = c("#C6001C", "#FF5454", "#FF483B"),
   `order_blue`  = c("#15607A",
                     "#1E81A2",
