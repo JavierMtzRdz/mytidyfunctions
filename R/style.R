@@ -51,6 +51,7 @@ theme_jmr <- function(...,
 #' @export
 paletas_jmr <- list(
   `general` = c("#277DA1", "#F9C74F", "#43AA8B", "#f94144"),
+  `generaletend` = c("#277DA1", "#F9C74F", "#43AA8B", "#FFAC41", "#f94144"),
   `imp1`  = c("#19749F", "#FF3E2B", "#008080", "#FEC260"),
   `imp2`  = c("#1E81A2", "#039176", "#FFAC41", "#FF483B"),
   `bi`  = c("#C6001C", "#FF5454", "#FF483B",
