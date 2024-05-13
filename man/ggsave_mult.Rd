@@ -5,13 +5,15 @@
 \title{Función para guardar gráficas en múltiples formatos}
 \usage{
 ggsave_mult(
-  format = ".png",
+  format = "png",
   path_name,
-  bg = "transparent",
+  .plot = ggplot2::last_plot(),
+  type_margin = NULL,
   width = 200,
   height = 120,
   units = "mm",
   dpi = 300,
+  scale = 2.5,
   ...
 )
 }

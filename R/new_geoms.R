@@ -373,34 +373,75 @@ geom_segment_pointv <- function(point_var_x,
 #' @return Guarda una gráfica
 #' @export
 #'
-ggsave_mult <- function(format = ".png",
+ggsave_mult <- function(format = "png",
                         path_name,
-                        bg = "transparent",
+                        .plot = ggplot2::last_plot(),
+                        type_margin = NULL,
                         width = 200,
                         height = 120,
                         units = "mm",
                         dpi = 300,
-                        ...){
-
+                        scale = 2.5,
+                        ...) {
+  if (is.null(type_margin)) {
+    width2 <- width
+    height2 <- height
+    units2 <- units
+    dpi2 <- dpi
+    scale2 <-  scale
+  }
+  else {
+    if (type_margin == "cuadrado") {
+      width2 <- 1200
+      height2 <- 1200
+      units2 <- "px"
+      scale2 <-  4/2
+      dpi2 <-  840/2
+    }
+    else if (type_margin == "largo") {
+      width2 <- 1200
+      height2 <- 1700
+      units2 <- "px"
+      scale2 <-  4/2
+      dpi2 <-  840/2
+    }
+    else warning("No tiene un tipo de marge aceptable")
+  }
   for (i in format) {
-
-    if (i == ".xlsx") {
-      ggplot2::last_plot() %>%
-        .$data %>%
-        writexl::write_xlsx(paste0(path_name,
-                          i))
-    } else {
-
-      ggplot2::ggsave(paste0(path_name,
-                             i),
-                      bg = bg,
-                      width = width,
-                      height = height,
-                      units = units,
-                      dpi = dpi,
+    if (i == "xlsx") {
+      
+      if (ggplot2::is.ggplot(.plot %>% .[[1]])) {
+        
+        .plot %>% .[[1]] %>%
+          .$data %>%
+          writexl::write_xlsx(paste0(path_name,
+                                     ".",
+                                     i))
+        
+      } else {
+        
+        .plot %>%
+          .$data %>%
+          writexl::write_xlsx(paste0(path_name,
+                                     ".",
+                                     i))
+        
+      }
+    }
+    else {
+      ggplot2::ggsave(plot = .plot,
+                      paste0(path_name, ".", i),
+                      bg = "transparent",
+                      width = width2,
+                      height = height2,
+                      units = units2,
+                      dpi = dpi2,
+                      scale =  scale2,
                       ...)
-
-    }}}
+      
+    }
+  }
+}
 
 #' Función para determinar qupe función usar
 #'
