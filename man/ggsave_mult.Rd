@@ -13,7 +13,7 @@ ggsave_mult(
   height = 120,
   units = "mm",
   dpi = 300,
-  scale = 2.5,
+  scale = 1,
   ...
 )
 }
