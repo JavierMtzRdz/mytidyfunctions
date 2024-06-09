@@ -415,6 +415,9 @@ ggsave_mult <- function(format = "png",
                         dpi = 300,
                         scale = 1,
                         ...) {
+  
+  format = gsub("\\.", "", format)
+  
   if (is.null(type_margin)) {
     width <- width
     height <- height
