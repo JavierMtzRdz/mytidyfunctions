@@ -467,7 +467,7 @@ ggsave_mult <- function(format = "png",
         .plot %>%
           .[[1]] %>%
           .$data %>%
-          readr::read_csv(paste0(
+          readr::write_csv(paste0(
             path_name,
             ".",
             i
@@ -475,7 +475,7 @@ ggsave_mult <- function(format = "png",
       } else {
         .plot %>%
           .$data %>%
-          readr::read_csv(paste0(
+          readr::write_csv(paste0(
             path_name,
             ".",
             i
