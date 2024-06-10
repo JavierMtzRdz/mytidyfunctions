@@ -482,7 +482,7 @@ ggsave_mult <- function(format = "png",
           ))
       }
     }
-    if (!(i %in% c("xlsx"))) {
+    if (!(i %in% c("xlsx", "csv"))) {
       ggplot2::ggsave(
         plot = .plot,
         paste0(path_name, ".", i),
