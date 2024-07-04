@@ -4,7 +4,7 @@
 \alias{theme_jmr}
 \title{Tema inicial con formato propio}
 \usage{
-theme_jmr(..., markdown = F)
+theme_jmr(..., text_resize = 1, markdown = F)
 }
 \arguments{
 \item{...}{cambios en el tema}

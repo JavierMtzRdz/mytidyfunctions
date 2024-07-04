@@ -9,22 +9,24 @@
 #' @export
 #'
 theme_jmr <- function(...,
+                      text_resize = 1, 
                       markdown = F) {
   ggplot2::theme_minimal() +
-    ggplot2::theme(text = ggplot2::element_text(family = "Lato"),
+    ggplot2::theme(text = ggplot2::element_text(family = "Lato",
+                                                size = 11*text_resize),
                    axis.line = ggplot2::element_line(size = 0.3),
                    plot.title = formt_text(markdown = markdown,
                                            hjust = 0.5,
-                                           size = 14, face = "bold",
+                                           size = 14*text_resize, face = "bold",
                                            color = "grey20"),
                    plot.title.position = "plot",
                    plot.subtitle = formt_text(markdown = markdown,
                                               hjust = 0.5,
-                                              size = 12,
+                                              size = 12*text_resize,
                                               color = "gray50"),
                    plot.caption =  formt_text(markdown = markdown,
                                               color = "gray50",
-                                              size = 10,
+                                              size = 10*text_resize,
                                               hjust = 0),
                    panel.grid = ggplot2::element_line(linetype = 2,
                                                       size = 0.3,
