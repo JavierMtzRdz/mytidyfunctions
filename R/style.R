@@ -215,7 +215,7 @@ set_mytheme <- function(geoms = c("bar", "col", "area",
                                           .x %in% c("line", "function") ~ 1,
                                           TRUE ~ 0.8)
                 
-                if(.x %in% c("bin")) {
+                if(.x %in% c("bin", "identity")) {
                   ggplot2::update_stat_defaults(
                     .x,   
                     list(fill = paletas_jmr$generalextend[1],
