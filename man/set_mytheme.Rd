@@ -4,7 +4,10 @@
 \alias{set_mytheme}
 \title{Set Custom Plot Theme}
 \usage{
-set_mytheme(geoms = c("bar", "col", "area", "point", "boxplot", "bin"), ...)
+set_mytheme(
+  geoms = c("bar", "col", "area", "point", "boxplot", "bin", "identity"),
+  ...
+)
 }
 \arguments{
 \item{geoms}{A character vector specifying the ggplot2 geometric objects for which to set default styles. Defaults to `c("bar", "col", "area", "point", "boxplot", "histogram")`.}

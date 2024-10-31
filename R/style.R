@@ -191,7 +191,8 @@ scale_fill_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE
 #' @return This function is used for its side effects of setting theme and display options. It does not return a value.
 #' @export
 set_mytheme <- function(geoms = c("bar", "col", "area",
-                                  "point", "boxplot", "bin"),
+                                  "point", "boxplot", "bin", 
+                                  "identity"),
                         ...) {
   
   ## Specify locale ----
@@ -208,18 +209,27 @@ set_mytheme <- function(geoms = c("bar", "col", "area",
   
   purrr::walk(geoms,
               function(.x){
+                
+                alpha <- dplyr::case_when(.x %in% c("col", "bar") ~ 0.9,
+                                          .x %in% c("point", "identity") ~ 0.7,
+                                          .x %in% c("line", "function") ~ 1,
+                                          TRUE ~ 0.8)
+                
                 if(.x %in% c("bin")) {
                   ggplot2::update_stat_defaults(
                     .x,   
                     list(fill = paletas_jmr$generalextend[1],
-                         alpha = 0.8))
+                         alpha = alpha))
+                } else if (.x %in% c("point", "line", "function")) {
+                  ggplot2::update_geom_defaults(
+                    .x,   
+                    list(color = paletas_jmr$generalextend[1],
+                         alpha = alpha))
                 } else {
                   ggplot2::update_geom_defaults(
                     .x,   
                     list(fill = paletas_jmr$generalextend[1],
-                         alpha = dplyr::case_when(.x %in% c("col", "bar") ~ 0.9,
-                                                  .x %in% c("line", "function") ~ 1,
-                                                  TRUE ~ 0.8)))
+                         alpha = alpha))
                 }
               })
 }
