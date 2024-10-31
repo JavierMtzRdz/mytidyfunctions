@@ -52,8 +52,9 @@ theme_jmr <- function(...,
 #' @format list
 #' @export
 paletas_jmr <- list(
-  `general` = c("#277DA1", "#F9C74F", "#43AA8B", "#f94144"),
-  `generaletend` = c("#277DA1", "#F9C74F", "#43AA8B", "#FFAC41", "#f94144"),
+  `general` = c("#f94144", "#277DA1", "#F9C74F", "#43AA8B"),
+  `generalextend` = c("#277DA1", "#f94144", "#F9C74F", "#43AA8B", "#FFAC41",
+                      "#58F7B4", "#C6001C", "#AED8FF", "#16A1CD"),
   `imp1`  = c("#19749F", "#FF3E2B", "#008080", "#FEC260"),
   `imp2`  = c("#1E81A2", "#039176", "#FFAC41", "#FF483B"),
   `bi`  = c("#C6001C", "#FF5454", "#FF483B",
@@ -181,3 +182,44 @@ scale_fill_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE
   }
 }
 
+
+#' @title Set Custom Plot Theme
+#' @description This function configures a customized theme for ggplot2 plots, setting locale options, disabling scientific notation, and applying specified theme settings to specified ggplot2 geometric objects.
+#' @param geoms A character vector specifying the ggplot2 geometric objects for which to set default styles. Defaults to `c("bar", "col", "area", "point", "boxplot", "histogram")`.
+#' @param ... Additional arguments passed to `theme_jmr`, allowing customization of the plot theme.
+#' @details This function sets a customized ggplot2 theme by applying `theme_jmr` globally and configuring color and fill palettes based on `paletas_jmr$generalextend`. It also sets locale options if running on a macOS system, disables scientific notation, and updates the default aesthetics of specified ggplot2 geoms to use colors from the `paletas_jmr` palette with adjusted transparency levels.
+#' @return This function is used for its side effects of setting theme and display options. It does not return a value.
+#' @export
+set_mytheme <- function(geoms = c("bar", "col", "area",
+                                  "point", "boxplot", "bin"),
+                        ...) {
+  
+  ## Specify locale ----
+  if(Sys.info()[['sysname']] == "Darwin") Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+  
+  ## Disable scientific notation ----
+  options(scipen = 999)
+  
+  # Set theme
+  ggplot2::theme_set(theme_jmr(...))
+  
+  options(ggplot2.discrete.colour = paletas_jmr$generalextend,
+          ggplot2.discrete.fill = paletas_jmr$generalextend)
+  
+  purrr::walk(geoms,
+              function(.x){
+                if(.x %in% c("bin")) {
+                  ggplot2::update_stat_defaults(
+                    .x,   
+                    list(fill = paletas_jmr$generalextend[1],
+                         alpha = 0.8))
+                } else {
+                  ggplot2::update_geom_defaults(
+                    .x,   
+                    list(fill = paletas_jmr$generalextend[1],
+                         alpha = dplyr::case_when(.x %in% c("col", "bar") ~ 0.9,
+                                                  .x %in% c("line", "function") ~ 1,
+                                                  TRUE ~ 0.8)))
+                }
+              })
+}

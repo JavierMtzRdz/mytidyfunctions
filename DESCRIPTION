@@ -24,5 +24,5 @@ Imports:
     cli
 Suggests:
     purrr
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Config/rextendr/version: 0.3.1
