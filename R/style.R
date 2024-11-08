@@ -190,12 +190,14 @@ scale_fill_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE
 #' @description This function configures a customized theme for ggplot2 plots, setting locale options, disabling scientific notation, and applying specified theme settings to specified ggplot2 geometric objects.
 #' @param geoms A character vector specifying the ggplot2 geometric objects for which to set default styles. Defaults to `c("bar", "col", "area", "point", "boxplot", "histogram")`.
 #' @param ... Additional arguments passed to `theme_jmr`, allowing customization of the plot theme.
-#' @details This function sets a customized ggplot2 theme by applying `theme_jmr` globally and configuring color and fill palettes based on `paletas_jmr$generalextend`. It also sets locale options if running on a macOS system, disables scientific notation, and updates the default aesthetics of specified ggplot2 geoms to use colors from the `paletas_jmr` palette with adjusted transparency levels.
+#' @details This function sets a customized ggplot2 theme by applying `theme_jmr` globally and configuring color and fill palettes based on `dis_palette`. It also sets locale options if running on a macOS system, disables scientific notation, and updates the default aesthetics of specified ggplot2 geoms to use colors from the `paletas_jmr` palette with adjusted transparency levels.
 #' @return This function is used for its side effects of setting theme and display options. It does not return a value.
 #' @export
 set_mytheme <- function(geoms = c("bar", "col", "area",
                                   "point", "boxplot", "bin", 
-                                  "identity"),
+                                  "identity", "line"),
+                        dis_pal = "generalextend",
+                        con_pal = "order_blue",
                         ...) {
   
   ## Specify locale ----
@@ -206,9 +208,12 @@ set_mytheme <- function(geoms = c("bar", "col", "area",
   
   # Set theme
   ggplot2::theme_set(theme_jmr(...))
+  dis_pal_list <- paletas_jmr[[dis_pal]]
   
-  options(ggplot2.discrete.colour = paletas_jmr$generalextend,
-          ggplot2.discrete.fill = paletas_jmr$generalextend)
+  options(ggplot2.discrete.colour = dis_pal_list,
+          ggplot2.discrete.fill = dis_pal_list)
+  options(ggplot2.continuous.fill = ~scale_fill_jmr(discrete = F,
+                                                    palette = con_pal))
   
   purrr::walk(geoms,
               function(.x){
@@ -221,17 +226,17 @@ set_mytheme <- function(geoms = c("bar", "col", "area",
                 if(.x %in% c("bin", "identity")) {
                   ggplot2::update_stat_defaults(
                     .x,   
-                    list(fill = paletas_jmr$generalextend[1],
+                    list(fill = dis_pal_list[1],
                          alpha = alpha))
                 } else if (.x %in% c("point", "line", "function")) {
                   ggplot2::update_geom_defaults(
                     .x,   
-                    list(color = paletas_jmr$generalextend[1],
+                    list(color = dis_pal_list[1],
                          alpha = alpha))
                 } else {
                   ggplot2::update_geom_defaults(
                     .x,   
-                    list(fill = paletas_jmr$generalextend[1],
+                    list(fill = dis_pal_list[1],
                          alpha = alpha))
                 }
               })
