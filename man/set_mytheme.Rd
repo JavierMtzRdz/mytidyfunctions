@@ -5,7 +5,9 @@
 \title{Set Custom Plot Theme}
 \usage{
 set_mytheme(
-  geoms = c("bar", "col", "area", "point", "boxplot", "bin", "identity"),
+  geoms = c("bar", "col", "area", "point", "boxplot", "bin", "identity", "line"),
+  dis_pal = "generalextend",
+  con_pal = "order_blue",
   ...
 )
 }
@@ -21,5 +23,5 @@ This function is used for its side effects of setting theme and display options.
 This function configures a customized theme for ggplot2 plots, setting locale options, disabling scientific notation, and applying specified theme settings to specified ggplot2 geometric objects.
 }
 \details{
-This function sets a customized ggplot2 theme by applying `theme_jmr` globally and configuring color and fill palettes based on `paletas_jmr$generalextend`. It also sets locale options if running on a macOS system, disables scientific notation, and updates the default aesthetics of specified ggplot2 geoms to use colors from the `paletas_jmr` palette with adjusted transparency levels.
+This function sets a customized ggplot2 theme by applying `theme_jmr` globally and configuring color and fill palettes based on `dis_palette`. It also sets locale options if running on a macOS system, disables scientific notation, and updates the default aesthetics of specified ggplot2 geoms to use colors from the `paletas_jmr` palette with adjusted transparency levels.
 }
