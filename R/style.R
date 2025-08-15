@@ -9,7 +9,7 @@
 #' @export
 #'
 theme_jmr <- function(...,
-                      text_resize = 1, 
+                      text_resize = 1,
                       markdown = F) {
   ggplot2::theme_minimal() +
     ggplot2::theme(text = ggplot2::element_text(family = "Lato",
@@ -55,13 +55,13 @@ paletas_jmr <- list(
   `general` = c("#f94144", "#277DA1", "#F9C74F", "#43AA8B"),
   `generalextend` = c("#277DA1", "#f94144", "#F9C74F", "#43AA8B", "#FFAC41",
                       "#58F7B4", "#C6001C", "#AED8FF", "#16A1CD", "#b2e061",
-                      "#bd7ebe", "#ffee65", "#beb9db", "#e76f51","#fdcce5", 
+                      "#bd7ebe", "#ffee65", "#beb9db", "#e76f51","#fdcce5",
                       "#8bd3c7","#264653","#f4a261", "#d5bdaf", "#335c67",
                       "#9e2a2b"),
   `imp1`  = c("#19749F", "#FF3E2B", "#008080", "#FEC260"),
   `imp2`  = c("#1E81A2", "#039176", "#FFAC41", "#FF483B"),
   `bi`  = c("#C6001C", "#FF5454", "#FF483B",
-            "#15607A", "#1E81A2", "#16A1CD"),
+            "#16A1CD", "#1E81A2", "#15607A"),
   `rainbow` = c("#f94144", "#f3722c", "#f8961e", "#f9844a", "#f9c74f",
                 "#90be6d", "#43aa8b", "#4d908e", "#577590", "#277da1"),
   `bi_2` = c("#001219","#005f73","#0a9396","#94d2bd","#e9d8a6",
@@ -110,11 +110,11 @@ paletas_jmr <- list(
 #' @export
 jmr_pal <- function(palette = "general", reverse = FALSE, ...) {
   pal <- paletas_jmr[[palette]]
-  
+
   if (reverse) pal <- rev(pal)
-  
+
   grDevices::colorRampPalette(pal, ...)
-  
+
 }
 
 #' Color interpolacion de paletas manual
@@ -131,18 +131,18 @@ jmr_pal <- function(palette = "general", reverse = FALSE, ...) {
 #' @export
 jmr_pal_manual <- function(n, palette = "general", reverse = FALSE, ...) {
   pal <- paletas_jmr[[palette]]
-  
+
   if (reverse) pal <- rev(pal)
-  
+
   grDevices::colorRampPalette(pal, ...)(n)
-  
+
 }
 
 #' Función para añadir colores de  a gráfica
 #'
 #' Esta función añade la paleta de colores a la gráfica de ggplot.
 #'
-#' @param palette Determina qué paleta tomar. Puede ser general, bivariado1, 
+#' @param palette Determina qué paleta tomar. Puede ser general, bivariado1,
 #' bivariado2, variado y multiple.
 #' @param discrete Determina si los datos son discretos o continuos.
 #' @param reverse Determina el orden de la paleta.
@@ -153,7 +153,7 @@ jmr_pal_manual <- function(n, palette = "general", reverse = FALSE, ...) {
 #' @export
 scale_color_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE, ...) {
   pal <- jmr_pal(palette = palette, reverse = reverse)
-  
+
   if (discrete) {
     ggplot2::discrete_scale("colour", palette, palette = pal, ...)
   } else {
@@ -166,7 +166,7 @@ scale_color_jmr <- function(palette = "general", discrete = TRUE, reverse = FALS
 #'
 #' Esta función añade la paleta de fill a la gráfica de ggplot.
 #'
-#' @param palette Determina qué paleta tomar. Puede ser general, bivariado1, 
+#' @param palette Determina qué paleta tomar. Puede ser general, bivariado1,
 #' bivariado2, variado y multiple.
 #' @param discrete Determina si los datos son discretos o continuos.
 #' @param reverse Determina el orden de la paleta.
@@ -177,7 +177,7 @@ scale_color_jmr <- function(palette = "general", discrete = TRUE, reverse = FALS
 #' @export
 scale_fill_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE, ...) {
   pal <- jmr_pal(palette = palette, reverse = reverse)
-  
+
   if (discrete) {
     ggplot2::discrete_scale("fill", palette, palette = pal, ...)
   } else {
@@ -194,48 +194,48 @@ scale_fill_jmr <- function(palette = "general", discrete = TRUE, reverse = FALSE
 #' @return This function is used for its side effects of setting theme and display options. It does not return a value.
 #' @export
 set_mytheme <- function(geoms = c("bar", "col", "area",
-                                  "point", "boxplot", "bin", 
+                                  "point", "boxplot", "bin",
                                   "identity", "line"),
                         dis_pal = "generalextend",
                         con_pal = "order_blue",
                         ...) {
-  
+
   ## Specify locale ----
   if(Sys.info()[['sysname']] == "Darwin") Sys.setlocale("LC_ALL", "es_ES.UTF-8")
-  
+
   ## Disable scientific notation ----
   options(scipen = 999)
-  
+
   # Set theme
   ggplot2::theme_set(theme_jmr(...))
   dis_pal_list <- paletas_jmr[[dis_pal]]
-  
+
   options(ggplot2.discrete.colour = dis_pal_list,
           ggplot2.discrete.fill = dis_pal_list)
   options(ggplot2.continuous.fill = ~scale_fill_jmr(discrete = F,
                                                     palette = con_pal))
-  
+
   purrr::walk(geoms,
               function(.x){
-                
+
                 alpha <- dplyr::case_when(.x %in% c("col", "bar") ~ 0.9,
                                           .x %in% c("point", "identity") ~ 0.7,
                                           .x %in% c("line", "function") ~ 1,
                                           TRUE ~ 0.8)
-                
+
                 if(.x %in% c("bin", "identity")) {
                   ggplot2::update_stat_defaults(
-                    .x,   
+                    .x,
                     list(fill = dis_pal_list[1],
                          alpha = alpha))
                 } else if (.x %in% c("point", "line", "function")) {
                   ggplot2::update_geom_defaults(
-                    .x,   
+                    .x,
                     list(color = dis_pal_list[1],
                          alpha = alpha))
                 } else {
                   ggplot2::update_geom_defaults(
-                    .x,   
+                    .x,
                     list(fill = dis_pal_list[1],
                          alpha = alpha))
                 }
